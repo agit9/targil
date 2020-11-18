@@ -5,7 +5,7 @@ pipeline {
     agent {
         dockerfile {
             label 'zip-job-docker'
-	    additionalBuildArgs  '--build-arg version=${VERSION} --priviliged'
+	    additionalBuildArgs  '--build-arg version=${params.VERSION} --priviliged'
         }
     }
     stages {
@@ -28,8 +28,8 @@ pipeline {
 		    spec: '''{
 			  "files": [
 			    {
-			      "pattern": '*${VERSION}.zip",
-			      "target": "binary-storage/${VERSION}"
+			      "pattern": '*${params.VERSION}.zip",
+			      "target": "binary-storage/${params.VERSION}"
 			    }
 			 ]
 		    }'''
