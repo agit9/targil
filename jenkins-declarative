@@ -16,7 +16,7 @@ pipeline {
         stage('Publish') { 
             steps {
 	    	rtServer (
-		    serverId: "artifacory-telaviv",
+		    id: "artifacory-telaviv",
 		    username: "super-user",
 		    password: "Qw12856!",
 		    url: "http://artifactory-telaviv"
