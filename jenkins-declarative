@@ -1,0 +1,41 @@
+def version = 1.2.0
+
+pipeline {
+    agent {
+        dockerfile {
+            label 'zip-job-docker'
+	    additionalBuildArgs  '--build-arg version=${version} --priviliged'
+        }
+    }
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'python3 /tmp/zip_job.py'
+            }
+        }
+        stage('Publish') { 
+            steps {
+                def server = Artifactory.newServer url: 'http://artifactory-telaviv', username: 'super-user', password: 'Qw12856!'
+                def uploadSpec = """{
+                    "files": [
+                    {
+                        "pattern": "*{VERSION env variable}.zip",
+                        "target": "binary-storage/${version}"
+                    }
+                    ]
+                }"""
+                server.upload(uploadSpec)
+            }
+        }
+        stage('Report') { 
+            steps {
+                emailext body: '${cuurentBuild.result}', recipientProviders: ['agatheoush@gmail.com'], subject: 'Job Status' 
+            }
+        }
+        stage('Cleanup') { 
+            steps {
+                // 
+            }
+        }
+    }
+}
