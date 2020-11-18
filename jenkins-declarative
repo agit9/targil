@@ -5,7 +5,7 @@ pipeline {
     agent {
         dockerfile {
             label 'zip-job-docker'
-	    additionalBuildArgs  '--build-arg version=${params.VERSION} --priviliged'
+	    additionalBuildArgs  "--build-arg version=${params.VERSION} --priviliged"
         }
     }
     stages {
