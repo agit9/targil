@@ -18,7 +18,7 @@ pipeline {
 	    	rtServer (
 		    serverId: "artifacory-telaviv",
 		    username: "super-user",
-		    password: "Qw12856!"
+		    password: "Qw12856!",
 		    url: "http://artifactory-telaviv"
 		)
 		
