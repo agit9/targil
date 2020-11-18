@@ -11,8 +11,7 @@ def uploadSpec = """{
 
 pipeline {
     agent {
-        docker {
-	    dockerfile true
+        dockerfile {
             label 'zip-job-docker'
 	    additionalBuildArgs  '--build-arg version=${version} --priviliged'
         }
