@@ -1,13 +1,4 @@
 def version = "1.2.0"
-def server = Artifactory.newServer url: 'http://artifactory-telaviv', username: 'super-user', password: 'Qw12856!'
-def uploadSpec = """{
-    "files": [
-    {
-	"pattern": "*{VERSION env variable}.zip",
-	"target": "binary-storage/${version}"
-    }
-    ]
-}"""
 
 pipeline {
     agent {
@@ -24,7 +15,24 @@ pipeline {
         }
         stage('Publish') { 
             steps {
-                server.upload(uploadSpec)
+	    	rtServer (
+		    serverId: "artifacory-telaviv",
+		    username: "super-user",
+		    password: "Qw12856!"
+		    url: "http://artifactory-telaviv"
+		)
+		
+                rtUpload (
+		    serverId: 'artifactory-telaviv',
+		    spec: '''{
+			  "files": [
+			    {
+			      "pattern": "*${version}.zip",
+			      "target": "binary-storage/${version}"
+			    }
+			 ]
+		    }'''
+		)
             }
         }
         stage('Report') { 
