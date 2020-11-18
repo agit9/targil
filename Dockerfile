@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-ENV VERSION=1.2.0
+ENV VERSION=${version}
 RUN apt-get update
 RUN apt-get -y install python3
 RUN apt-get -y install vim
