@@ -11,7 +11,8 @@ def uploadSpec = """{
 
 pipeline {
     agent {
-        dockerfile {
+        docker {
+	    dockerfile true
             label 'zip-job-docker'
 	    additionalBuildArgs  '--build-arg version=${version} --priviliged'
         }
@@ -24,17 +25,12 @@ pipeline {
         }
         stage('Publish') { 
             steps {
-                ${server}.upload(${uploadSpec})
+                ${server}.upload("${uploadSpec}")
             }
         }
         stage('Report') { 
             steps {
                 emailext body: '${cuurentBuild.result}', recipientProviders: ['agatheoush@gmail.com'], subject: 'Job Status' 
-            }
-        }
-        stage('Cleanup') { 
-            steps {
-                // 
             }
         }
     }
